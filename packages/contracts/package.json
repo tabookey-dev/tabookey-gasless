@@ -4,7 +4,8 @@
   "version": "2.2.0-alpha.1",
   "main": "types/truffle-contracts/index.d.ts",
   "scripts": {
-    "truffle-compile": "truffle compile --compile-all",
+    "flatten": "for s in src/*.sol src/*/*.sol; do echo $s; truffle-flattener $s --output build/flatten/$s; done",
+    "truffle-compile": "yarn flatten && truffle compile --compile-all",
     "typechain-generate": "yarn truffle-compile && typechain --target truffle-v5 '../cli/src/compiled/*.json'",
     "lint": "solhint -f unix \"src/**/*.sol\" --max-warnings 0"
   },
@@ -20,6 +21,7 @@
     "@openzeppelin/contracts": "^3.4.0-solc-0.7"
   },
   "devDependencies": {
+    "@opengsn/truffle-flattener": "1.5.1",
     "solhint": "^3.3.2"
   },
   "peerDependencies": {

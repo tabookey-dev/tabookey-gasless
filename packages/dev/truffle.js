@@ -3,12 +3,23 @@ require('ts-node/register/transpile-only')
 const HDWalletProvider = require('@truffle/hdwallet-provider')
 const mnemonic = 'digital unknown jealous mother legal hedgehog save glory december universe spread figure custom found six'
 
-const secretMnemonicFile = './secret_mnemonic'
+const secretMnemonicFile = process.env.MNEMONIC_FILE || './secret_mnemonic'
 const fs = require('fs')
 let secretMnemonic
 if (fs.existsSync(secretMnemonicFile)) {
   secretMnemonic = fs.readFileSync(secretMnemonicFile, { encoding: 'utf8' })
 }
+
+function network( url, network_id ) {
+  return {
+     provider: function () {
+       return new HDWalletProvider(secretMnemonic, url)
+     },
+     url,
+     network_id
+  }
+}
+
 
 module.exports = {
   networks: {
@@ -55,6 +66,7 @@ module.exports = {
       },
       network_id: 3
     },
+    mumbai: network( 'https://matic-mumbai.chainstacklabs.com', 80001 ),
     xdai_poa_mainnet: {
       provider: function () {
         return new HDWalletProvider(secretMnemonic, 'https://dai.poa.network')
