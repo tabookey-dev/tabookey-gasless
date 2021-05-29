@@ -530,7 +530,8 @@ export class ContractInteractor {
   }
 
   async getBlockNumber (): Promise<number> {
-    return await this.web3.eth.getBlockNumber()
+    //TODO: ARB load-balancer makes "latest" block miss
+    return await this.web3.eth.getBlockNumber() - 1
   }
 
   async sendSignedTransaction (rawTx: string): Promise<TransactionReceipt> {

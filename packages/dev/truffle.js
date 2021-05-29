@@ -3,7 +3,7 @@ require('ts-node/register/transpile-only')
 const HDWalletProvider = require('@truffle/hdwallet-provider')
 const mnemonic = 'digital unknown jealous mother legal hedgehog save glory december universe spread figure custom found six'
 
-const secretMnemonicFile = './secret_mnemonic'
+const secretMnemonicFile = process.env.MNEMONIC_FILE || './secret_mnemonic'
 const fs = require('fs')
 let secretMnemonic
 if (fs.existsSync(secretMnemonicFile)) {
@@ -33,7 +33,7 @@ module.exports = {
     },
     mainnet: {
       provider: function () {
-        return new HDWalletProvider(mnemonic, 'https://mainnet.infura.io/v3/f40be2b1a3914db682491dc62a19ad43')
+        return new HDWalletProvider(secretMnemonic, 'https://mainnet.infura.io/v3/f40be2b1a3914db682491dc62a19ad43')
       },
       network_id: 1
     },
@@ -48,6 +48,12 @@ module.exports = {
         return new HDWalletProvider(mnemonic, 'https://rinkeby.infura.io/v3/f40be2b1a3914db682491dc62a19ad43')
       },
       network_id: 4
+    },
+    karb: {
+      provider: function () {
+        return new HDWalletProvider(secretMnemonic, 'https://kovan5.arbitrum.io/rpc')
+      },
+      network_id: '*'
     },
     ropsten: {
       provider: function () {
@@ -78,6 +84,12 @@ module.exports = {
         return new HDWalletProvider(mnemonic, 'https://kotti.connect.bloq.cloud/v1/roast-blossom-sentence')
       },
       network_id: '6'
+    },
+    env: {
+      provider: function () {
+        return new HDWalletProvider(secretMnemonic, process.env.NODEURL)
+      },
+      network_id: '*'
     }
   },
   mocha: {

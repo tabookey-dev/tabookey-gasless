@@ -36,7 +36,7 @@ import {
 } from './GsnEvents'
 
 // forwarder requests are signed with expiration time.
-const REQUEST_VALID_BLOCKS = 6000 // roughly a day
+const REQUEST_VALID_BLOCKS = 1e8 //arbitrum bug: they use L1 for solidity's block.number
 
 // generate "approvalData" and "paymasterData" for a request.
 // both are bytes arrays. paymasterData is part of the client request.
